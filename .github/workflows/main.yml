@@ -1,0 +1,48 @@
+name: Build Android Debug APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Repository-ஐ க்ளோன் செய்தல்
+      uses: actions/checkout@v4
+
+    - name: Node.js செட்டப் செய்தல்
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: கேம் ஃபைல்களை பில்ட் செய்தல் (Build)
+      run: |
+        npm install
+        npm run build
+
+    - name: Java செட்டப் செய்தல் (Android Build-க்கு தேவை)
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Capacitor இன்ஸ்டால் செய்து ஆண்ட்ராய்டு பிளாட்ஃபார்ம் சேர்த்தல்
+      run: |
+        npm install @capacitor/core @capacitor/cli @capacitor/android
+        npx cap init GameApp com.game.app --web-dir dist
+        npx cap add android
+
+    - name: ஆண்ட்ராய்டு டீபக் ஏபிகே (Debug APK) உருவாக்குதல்
+      run: |
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleDebug
+
+    - name: ஏபிகே ஃபைலை டவுன்லோட் செய்ய சேமித்தல்
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
