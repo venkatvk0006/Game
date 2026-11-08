@@ -20,7 +20,7 @@ jobs:
 
     - name: கேம் ஃபைல்களை பில்ட் செய்தல் (Build)
       run: |
-        npm install
+        npm install --legacy-peer-deps --force
         npm run build
 
     - name: Java செட்டப் செய்தல் (Android Build-க்கு தேவை)
@@ -29,10 +29,11 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: கேம் ஃபைல்களை பில்ட் செய்தல் (Build)
+    - name: Capacitor இன்ஸ்டால் செய்து ஆண்ட்ராய்டு பிளாட்ஃபார்ம் சேர்த்தல்
       run: |
-        npm install --legacy-peer-deps
-        npm run build
+        npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
+        npx cap init GameApp com.game.app --web-dir dist
+        npx cap add android
 
     - name: ஆண்ட்ராய்டு டீபக் ஏபிகே (Debug APK) உருவாக்குதல்
       run: |
