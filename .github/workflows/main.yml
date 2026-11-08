@@ -34,7 +34,11 @@ jobs:
         npm install @capacitor/core @capacitor/cli @capacitor/android --legacy-peer-deps
         npx cap init GameApp com.game.app --web-dir dist
         npx cap add android
-
+    - name: Increase Gradle Network Timeout
+      run: |
+           mkdir -p ~/.gradle
+           echo "systemProp.org.gradle.internal.http.connectionTimeout=60000" >> ~/.gradle/gradle.properties
+           echo "systemProp.org.gradle.internal.http.socketTimeout=60000" >> ~/.gradle/gradle.properties
     - name: ஆண்ட்ராய்டு டீபக் ஏபிகே (Debug APK) உருவாக்குதல்
       run: |
         cd android
