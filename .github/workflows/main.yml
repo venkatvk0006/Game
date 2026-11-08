@@ -16,7 +16,7 @@ jobs:
     - name: Node.js செட்டப் செய்தல்
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
 
     - name: கேம் ஃபைல்களை பில்ட் செய்தல் (Build)
       run: |
