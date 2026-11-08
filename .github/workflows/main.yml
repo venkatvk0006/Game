@@ -27,7 +27,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
 
     - name: Capacitor இன்ஸ்டால் செய்து ஆண்ட்ராய்டு பிளாட்ஃபார்ம் சேர்த்தல்
       run: |
